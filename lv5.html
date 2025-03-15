@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+
+<html lang="zh">
+
+<head>
+<!DOCTYPE html>
+
+<html lang="zh">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>拼圖遊戲</title>
+
+    <style>
+
+        body {
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            height: 100vh;
+
+        }
+
+        #puzzle-container {
+
+            display: grid;
+
+            grid-template-columns: repeat(8, 1fr);
+
+            grid-template-rows: repeat(5, 1fr);
+
+            gap: 2px;
+
+            width: 640px;
+
+            height: 400px;
+
+            background-color: white;
+
+            border: 2px solid black;
+
+        }
+
+        .piece {
+
+            width: 80px;
+
+            height: 80px;
+
+            background-size: 640px 400px;
+
+            cursor: pointer;
+
+            border: 1px solid #ddd;
+
+            user-select: none;
+
+        }
+
+        #message {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            color: green;
+
+            margin-top: 10px;
+
+            display: none;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>CousinBear Puzzle</h1>
+
+    <div id="puzzle-container"></div>
+
+    <button onclick="shuffle()">upset</button>
+
+    <p id="message"></p>
+
+    <script>
+
+        const rows = 5;
+
+        const cols = 8;
+
+        const imageUrl = "https://raw.githubusercontent.com/ryan1114-carer/carer-img/59543598894798f6f500c37f3f0dd43dddbebdd1/Image_20250315_1436.png";
+
+        let draggedPiece = null;
+
+        function createPuzzle() {
+
+            const container = document.getElementById("puzzle-container");
+
+            container.innerHTML = "";
+
+            let pieces = [];
+
+            for (let row = 0; row < rows; row++) {
+
+                for (let col = 0; col < cols; col++) {
+
+                    let piece = document.createElement("div");
+
+                    piece.classList.add("piece");
+
+                    piece.style.backgroundImage = `url('${imageUrl}')`;
+
+                    piece.style.backgroundPosition = `-${col * 80}px -${row * 80}px`;
+
+                    piece.dataset.index = row * cols + col;
+
+                    piece.draggable = true;
+
+                    piece.addEventListener("dragstart", onDragStart);
+
+                    piece.addEventListener("dragover", onDragOver);
+
+                    piece.addEventListener("drop", onDrop);
+
+                    pieces.push(piece);
+
+                    container.appendChild(piece);
+
+                }
+
+            }
+
+        }
+
+        function onDragStart(event) {
+
+            draggedPiece = event.target;
+
+        }
+
+        function onDragOver(event) {
+
+            event.preventDefault();
+
+        }
+
+        function onDrop(event) {
+
+            event.preventDefault();
+
+            const target = event.target;
+
+            if (draggedPiece && draggedPiece !== target) {
+
+                const container = document.getElementById("puzzle-container");
+
+                const pieces = Array.from(container.children);
+
+                const draggedIndex = pieces.indexOf(draggedPiece);
+
+                const targetIndex = pieces.indexOf(target);
+
+                // 交換被移動的拼圖與目標拼圖
+
+                pieces[draggedIndex] = target;
+
+                pieces[targetIndex] = draggedPiece;
+
+                // 重新排列拼圖
+
+                pieces.forEach(piece => container.appendChild(piece));
+
+                checkWin();
+
+            }
+
+        }
+
+        function checkWin() {
+
+            const container = document.getElementById("puzzle-container");
+
+            const currentOrder = Array.from(container.children).map(piece => piece.dataset.index).join(',');
+
+            const correctOrder = Array.from(container.children).map((_, i) => i.toString()).join(',');
+
+            if (currentOrder === correctOrder) {
+
+                document.getElementById("message").innerText = "🧩puzzle done！";
+
+                document.getElementById("message").style.display = "block";
+
+            }
+
+        }
+
+        function shuffle() {
+
+            const container = document.getElementById("puzzle-container");
+
+            const pieces = Array.from(container.children);
+
+            pieces.sort(() => Math.random() - 0.5);
+
+            pieces.forEach(piece => container.appendChild(piece));
+
+        }
+
+        createPuzzle();
+
+    </script>
+
+</body>
+
+</html>
+
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>拼圖遊戲</title>
+
+    <style>
+
+        body {
+
+            display: flex;
+
+            flex-direction: column;
+
+            align-items: center;
+
+            justify-content: center;
+
+            height: 100vh;
+
+        }
+
+        #puzzle-container {
+
+            display: grid;
+
+            grid-template-columns: repeat(8, 1fr);
+
+            grid-template-rows: repeat(5, 1fr);
+
+            gap: 2px;
+
+            width: 640px;
+
+            height: 400px;
+
+            background-color: white;
+
+            border: 2px solid black;
+
+        }
+
+        .piece {
+
+            width: 80px;
+
+            height: 80px;
+
+            background-size: 640px 400px;
+
+            cursor: pointer;
+
+            border: 1px solid #ddd;
+
+            user-select: none;
+
+        }
+
+        #message {
+
+            font-size: 20px;
+
+            font-weight: bold;
+
+            color: green;
+
+            margin-top: 10px;
+
+            display: none;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>CousinBear Puzzle</h1>
+
+    <div id="puzzle-container"></div>
+
+    <button onclick="shuffle()">upset</button>
+
+    <p id="message"></p>
+
+    <script>
+
+        const rows = 5;
+
+        const cols = 8;
+
+        const imageUrl = "https://raw.githubusercontent.com/ryan1114-carer/carer-img/59543598894798f6f500c37f3f0dd43dddbebdd1/Image_20250315_1450.png";
+
+        let draggedPiece = null;
+
+        function createPuzzle() {
+
+            const container = document.getElementById("puzzle-container");
+
+            container.innerHTML = "";
+
+            let pieces = [];
+
+            for (let row = 0; row < rows; row++) {
+
+                for (let col = 0; col < cols; col++) {
+
+                    let piece = document.createElement("div");
+
+                    piece.classList.add("piece");
+
+                    piece.style.backgroundImage = `url('${imageUrl}')`;
+
+                    piece.style.backgroundPosition = `-${col * 80}px -${row * 80}px`;
+
+                    piece.dataset.index = row * cols + col;
+
+                    piece.draggable = true;
+
+                    piece.addEventListener("dragstart", onDragStart);
+
+                    piece.addEventListener("dragover", onDragOver);
+
+                    piece.addEventListener("drop", onDrop);
+
+                    pieces.push(piece);
+
+                    container.appendChild(piece);
+
+                }
+
+            }
+
+        }
+
+        function onDragStart(event) {
+
+            draggedPiece = event.target;
+
+        }
+
+        function onDragOver(event) {
+
+            event.preventDefault();
+
+        }
+
+        function onDrop(event) {
+
+            event.preventDefault();
+
+            const target = event.target;
+
+            if (draggedPiece && draggedPiece !== target) {
+
+                const container = document.getElementById("puzzle-container");
+
+                const pieces = Array.from(container.children);
+
+                const draggedIndex = pieces.indexOf(draggedPiece);
+
+                const targetIndex = pieces.indexOf(target);
+
+                // 交換被移動的拼圖與目標拼圖
+
+                pieces[draggedIndex] = target;
+
+                pieces[targetIndex] = draggedPiece;
+
+                // 重新排列拼圖
+
+                pieces.forEach(piece => container.appendChild(piece));
+
+                checkWin();
+
+            }
+
+        }
+
+        function checkWin() {
+
+            const container = document.getElementById("puzzle-container");
+
+            const currentOrder = Array.from(container.children).map(piece => piece.dataset.index).join(',');
+
+            const correctOrder = Array.from(container.children).map((_, i) => i.toString()).join(',');
+
+            if (currentOrder === correctOrder) {
+
+                document.getElementById("message").innerText = "🧩puzzle done！";
+
+                document.getElementById("message").style.display = "block";
+
+            }
+
+        }
+
+        function shuffle() {
+
+            const container = document.getElementById("puzzle-container");
+
+            const pieces = Array.from(container.children);
+
+            pieces.sort(() => Math.random() - 0.5);
+
+            pieces.forEach(piece => container.appendChild(piece));
+
+        }
+
+        createPuzzle();
+
+    </script>
+
+</body>
+
+</html>
+
