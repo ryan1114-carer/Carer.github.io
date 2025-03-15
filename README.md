@@ -1,2 +1,2 @@
-# Carer.github.io
-Carer repository
+# CousinBear Puzzle
+this is CousinBear Puzzle code
