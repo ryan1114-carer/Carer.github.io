@@ -11,6 +11,9 @@
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #fff, #e0e7ff);
       color: #333;
+      user-select: none;
+      -webkit-user-drag: none;
+      -webkit-touch-callout: none;
     }
 
     header {
@@ -44,6 +47,16 @@
       padding: 20px;
     }
 
+    #img {
+      max-width: 100%;
+      height: auto;
+      object-fit: contain;
+      aspect-ratio: 3 / 2;
+      user-select: none;
+      -webkit-user-drag: none;
+      pointer-events: none;
+    }
+
     footer {
       text-align: center;
       padding: 20px;
@@ -52,6 +65,25 @@
       margin-top: 40px;
     }
   </style>
+  <script>
+    // 禁用右鍵
+    document.addEventListener('contextmenu', function (e) {
+      e.preventDefault();
+    });
+
+    // 禁用縮放（觸控與 Ctrl+滾輪）
+    document.addEventListener('wheel', function (e) {
+      if (e.ctrlKey) {
+        e.preventDefault();
+      }
+    }, { passive: false });
+
+    document.addEventListener('keydown', function (e) {
+      if ((e.ctrlKey && (e.key === '+' || e.key === '-' || e.key === '=')) || e.key === 'F12') {
+        e.preventDefault();
+      }
+    });
+  </script>
 </head>
 <body>
   <header>
@@ -74,7 +106,7 @@
     <section id="portfolio">
       <h2>熊插圖</h2>
       <p>錶哥熊的動畫照片都在底下喔↓</p>
-      <img id="img" width="600" height="400" src="https://ryan1114-carer.github.io/Carer.github.io/cousinbear.png" alt="錶哥熊的照片"></img>
+      <img id="img" src="https://ryan1114-carer.github.io/Carer.github.io/cousinbear.png" alt="錶哥熊的照片">
     </section>
 
     <section id="contact">
